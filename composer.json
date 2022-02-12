@@ -1,0 +1,21 @@
+{
+    "name": "tecdynamics/seo-helper",
+    "description": "SEO helper package",
+    "type": "package",
+    "autoload": {
+        "psr-4": {
+            "Tec\\SeoHelper\\": "src"
+        }
+    },
+
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tec\\SeoHelper\\Providers\\SeoHelperServiceProvider"
+            ],
+            "aliases": {
+                "SeoHelper": "Tec\\SeoHelper\\Facades\\SeoHelperFacade"
+            }
+        }
+    }
+}
