@@ -2,8 +2,8 @@
 
 namespace Tec\SeoHelper\Facades;
 
-use Tec\SeoHelper\SeoHelper;
 use Illuminate\Support\Facades\Facade;
+use Tec\SeoHelper\SeoHelper as SeoHelperFacade;
 
 
 /**
@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Facade;
  *
  * @see \Tec\SeoHelper\SeoHelper
  */
-class SeoHelperFacade extends Facade
+class SeoHelper extends Facade
 {
 
     /**
@@ -32,6 +32,6 @@ class SeoHelperFacade extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return SeoHelper::class;
+        return SeoHelperFacade::class;
     }
 }
