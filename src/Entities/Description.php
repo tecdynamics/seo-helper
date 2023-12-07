@@ -2,6 +2,7 @@
 
 namespace Tec\SeoHelper\Entities;
 
+use Tec\Base\Facades\BaseHelper;
 use Tec\SeoHelper\Contracts\Entities\DescriptionContract;
 use Tec\SeoHelper\Exceptions\InvalidArgumentException;
 use Tec\SeoHelper\Helpers\Meta;
@@ -9,7 +10,6 @@ use Illuminate\Support\Str;
 
 class Description implements DescriptionContract
 {
-
     /**
      * The meta name.
      *
@@ -70,7 +70,9 @@ class Description implements DescriptionContract
      */
     public function set($content)
     {
-        $this->content = trim(strip_tags($content));
+        if ($content) {
+            $this->content = trim(strip_tags(BaseHelper::cleanShortcodes((string)$content)));
+        }
 
         return $this;
     }
@@ -107,11 +109,8 @@ class Description implements DescriptionContract
      *
      * @param string $content
      * @param int $max
-     *
-     * @return $this
-     * @throws InvalidArgumentException
      */
-    public static function make($content, $max = 386)
+    public static function make($content, $max = 386): self
     {
         return new self();
     }
@@ -120,10 +119,11 @@ class Description implements DescriptionContract
      * Render the tag.
      *
      * @return string
+     * @throws InvalidArgumentException
      */
     public function render()
     {
-        if (!$this->hasContent()) {
+        if (! $this->hasContent()) {
             return '';
         }
 
@@ -147,7 +147,7 @@ class Description implements DescriptionContract
      */
     protected function hasContent()
     {
-        return !empty($this->get());
+        return ! empty($this->get());
     }
 
     /**
@@ -159,7 +159,7 @@ class Description implements DescriptionContract
      */
     protected function checkMax($max)
     {
-        if (!is_int($max)) {
+        if (! is_int($max)) {
             throw new InvalidArgumentException(
                 'The description maximum length must be integer.'
             );

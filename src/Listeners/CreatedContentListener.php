@@ -3,24 +3,18 @@
 namespace Tec\SeoHelper\Listeners;
 
 use Tec\Base\Events\CreatedContentEvent;
+use Tec\Base\Facades\BaseHelper;
+use Tec\SeoHelper\Facades\SeoHelper;
 use Exception;
-use SeoHelper;
 
 class CreatedContentListener
 {
-
-    /**
-     * Handle the event.
-     *
-     * @param CreatedContentEvent $event
-     * @return void
-     */
-    public function handle(CreatedContentEvent $event)
+    public function handle(CreatedContentEvent $event): void
     {
         try {
             SeoHelper::saveMetaData($event->screen, $event->request, $event->data);
         } catch (Exception $exception) {
-            info($exception->getMessage());
+            BaseHelper::logError($exception);
         }
     }
 }

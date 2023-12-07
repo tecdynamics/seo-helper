@@ -6,20 +6,9 @@ use Tec\SeoHelper\Contracts\RenderableContract;
 
 interface TitleContract extends RenderableContract
 {
-    /**
-     * Get title only (without site name or separator).
-     *
-     * @return string
-     */
-    public function getTitleOnly();
+    public function getTitleOnly(): string|null;
 
-    /**
-     * Set title.
-     *
-     * @param string $title
-     * @return $this
-     */
-    public function set($title);
+    public function set(string|null $title);
 
     /**
      * Get site name.
@@ -96,4 +85,11 @@ interface TitleContract extends RenderableContract
      * @return $this
      */
     public static function make($title, $siteName = '', $separator = '-');
+
+    /**
+     * Get the title.
+     *
+     * @return string
+     */
+    public function getTitle();
 }

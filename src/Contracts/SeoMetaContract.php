@@ -2,6 +2,7 @@
 
 namespace Tec\SeoHelper\Contracts;
 
+use Tec\SeoHelper\Contracts\Entities\AnalyticsContract;
 use Tec\SeoHelper\Contracts\Entities\DescriptionContract;
 use Tec\SeoHelper\Contracts\Entities\MiscTagsContract;
 use Tec\SeoHelper\Contracts\Entities\TitleContract;
@@ -9,7 +10,6 @@ use Tec\SeoHelper\Contracts\Entities\WebmastersContract;
 
 interface SeoMetaContract extends RenderableContract
 {
-
     /**
      * Set the Title instance.
      *
@@ -101,4 +101,12 @@ interface SeoMetaContract extends RenderableContract
      * @return $this
      */
     public function addMetas(array $meta);
+
+    public function getAnalytics(): AnalyticsContract;
+
+    public function getTitle();
+
+    public function getDescription();
+
+    public function setGoogle($code);
 }

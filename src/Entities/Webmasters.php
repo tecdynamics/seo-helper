@@ -6,23 +6,15 @@ use Tec\SeoHelper\Contracts\Entities\WebmastersContract;
 
 class Webmasters implements WebmastersContract
 {
-    /**
-     * The supported webmasters.
-     *
-     * @var array
-     */
     protected $supported = [
-        'google'    => 'google-site-verification',
-        'bing'      => 'msvalidate.01',
-        'alexa'     => 'alexaVerifyID',
+        'google' => 'google-site-verification',
+        'bing' => 'msvalidate.01',
+        'alexa' => 'alexaVerifyID',
         'pinterest' => 'p:domain_verify',
-        'yandex'    => 'yandex-verification',
+        'yandex' => 'yandex-verification',
     ];
 
-    /**
-     * @var
-     */
-    protected $meta;
+    protected MetaCollection $meta;
 
     /**
      * Create Webmasters instance.
@@ -69,7 +61,7 @@ class Webmasters implements WebmastersContract
      */
     public function add($webmaster, $content)
     {
-        if (!empty($name = $this->getWebmasterName($webmaster))) {
+        if (! empty($name = $this->getWebmasterName($webmaster))) {
             $this->meta->add(compact('name', 'content'));
         }
 
@@ -83,7 +75,7 @@ class Webmasters implements WebmastersContract
      */
     public function reset()
     {
-        $this->meta = new MetaCollection;
+        $this->meta = new MetaCollection();
 
         return $this;
     }

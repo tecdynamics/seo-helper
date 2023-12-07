@@ -5,12 +5,12 @@ namespace Tec\SeoHelper\Bases;
 use Tec\SeoHelper\Contracts\Entities\MetaCollectionContract;
 use Tec\SeoHelper\Contracts\Helpers\MetaContract;
 use Tec\SeoHelper\Contracts\RenderableContract;
+use Tec\SeoHelper\Exceptions\InvalidArgumentException;
 use Tec\SeoHelper\Helpers\Meta;
 use Illuminate\Support\Collection;
 
 abstract class MetaCollection extends Collection implements MetaCollectionContract
 {
-
     /**
      * Meta tag prefix.
      *
@@ -72,8 +72,7 @@ abstract class MetaCollection extends Collection implements MetaCollectionContra
     /**
      * Add a meta to collection.
      *
-     * @param string $name
-     * @param string $content
+     * @param Meta|array $item
      *
      * @return MetaCollection
      */
@@ -89,10 +88,9 @@ abstract class MetaCollection extends Collection implements MetaCollectionContra
     /**
      * Make a meta and add it to collection.
      *
-     * @param string $name
-     * @param string $content
-     *
+     * @param array $meta
      * @return MetaCollection
+     * @throws InvalidArgumentException
      */
     protected function addMeta(array $meta)
     {

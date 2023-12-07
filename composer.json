@@ -7,7 +7,7 @@
             "Tec\\SeoHelper\\": "src"
         }
     },
- "require": {
+    "require": {
         "tecdynamics/platform": "*@dev",
         "tecdynamics/theme": "*@dev"
     },
@@ -17,7 +17,7 @@
                 "Tec\\SeoHelper\\Providers\\SeoHelperServiceProvider"
             ],
             "aliases": {
-                "SeoHelper": "Tec\\SeoHelper\\Facades\\SeoHelperFacade"
+                "SeoHelper": "Tec\\SeoHelper\\Facades\\SeoHelper"
             }
         }
     }

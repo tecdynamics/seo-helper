@@ -3,24 +3,18 @@
 namespace Tec\SeoHelper\Listeners;
 
 use Tec\Base\Events\UpdatedContentEvent;
+use Tec\Base\Facades\BaseHelper;
+use Tec\SeoHelper\Facades\SeoHelper;
 use Exception;
-use SeoHelper;
 
 class UpdatedContentListener
 {
-
-    /**
-     * Handle the event.
-     *
-     * @param UpdatedContentEvent $event
-     * @return void
-     */
-    public function handle(UpdatedContentEvent $event)
+    public function handle(UpdatedContentEvent $event): void
     {
         try {
             SeoHelper::saveMetaData($event->screen, $event->request, $event->data);
         } catch (Exception $exception) {
-            info($exception->getMessage());
+            BaseHelper::logError($exception);
         }
     }
 }

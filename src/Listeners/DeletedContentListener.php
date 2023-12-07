@@ -3,24 +3,18 @@
 namespace Tec\SeoHelper\Listeners;
 
 use Tec\Base\Events\DeletedContentEvent;
+use Tec\Base\Facades\BaseHelper;
+use Tec\SeoHelper\Facades\SeoHelper;
 use Exception;
-use SeoHelper;
 
 class DeletedContentListener
 {
-
-    /**
-     * Handle the event.
-     *
-     * @param DeletedContentEvent $event
-     * @return void
-     */
-    public function handle(DeletedContentEvent $event)
+    public function handle(DeletedContentEvent $event): void
     {
         try {
             SeoHelper::deleteMetaData($event->screen, $event->data);
         } catch (Exception $exception) {
-            info($exception->getMessage());
+            BaseHelper::logError($exception);
         }
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Tec\SeoHelper\Facades;
 
-use Illuminate\Support\Facades\Facade;
 use Tec\SeoHelper\SeoHelper as BaseSeoHelper;
+use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static \Tec\SeoHelper\SeoHelper setSeoMeta(\Tec\SeoHelper\Contracts\SeoMetaContract $seoMeta)
@@ -23,7 +23,7 @@ use Tec\SeoHelper\SeoHelper as BaseSeoHelper;
  *
  * @see \Tec\SeoHelper\SeoHelper
  */
-class SeoHelperFacade extends Facade
+class SeoHelper extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
