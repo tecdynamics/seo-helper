@@ -5,6 +5,7 @@ namespace Tec\SeoHelper\Facades;
 use Illuminate\Support\Facades\Facade;
 use Tec\SeoHelper\SeoHelper as BaseSeoHelper;
 
+
 /**
  * @method static \Tec\SeoHelper\SeoHelper setSeoMeta(\Tec\SeoHelper\Contracts\SeoMetaContract $seoMeta)
  * @method static \Tec\SeoHelper\SeoHelper setSeoOpenGraph(\Tec\SeoHelper\Contracts\SeoOpenGraphContract $seoOpenGraph)

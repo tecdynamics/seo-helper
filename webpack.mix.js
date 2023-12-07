@@ -8,7 +8,7 @@ const dist = 'public/vendor/core/packages/' + directory
 
 mix
     .js(source + '/resources/assets/js/seo-helper.js', dist + '/js')
-    .sass(source + '/resources/assets/sass/seo-helper.scss', dist + '/css')
+  //  .sass(source + '/resources/assets/sass/seo-helper.scss', dist + '/css')
 
 if (mix.inProduction()) {
     mix
