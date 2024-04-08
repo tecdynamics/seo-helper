@@ -7,23 +7,31 @@ use Tec\Base\Facades\Assets;
 use Tec\Base\Facades\BaseHelper;
 use Tec\Base\Facades\MetaBox;
 use Tec\Base\Supports\ServiceProvider;
+use Tec\Media\Facades\RvMedia;
 use Tec\Page\Models\Page;
 use Tec\SeoHelper\Facades\SeoHelper;
+use Tec\SeoHelper\Forms\SeoForm;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Routing\Events\RouteMatched;
 
 class HookServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        $this->app->booted(function () {
-            add_action(BASE_ACTION_META_BOXES, [$this, 'addMetaBox'], 12, 2);
+        add_action(BASE_ACTION_META_BOXES, [$this, 'addMetaBox'], 12, 2);
+
+        $this->app['events']->listen(RouteMatched::class, function () {
             add_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, [$this, 'setSeoMeta'], 56, 2);
         });
     }
 
-    public function addMetaBox(string $priority, BaseModel|null $data): void
+    public function addMetaBox(string $priority, array|string|BaseModel|null $data = null): void
     {
-        if ($priority == 'advanced' && ! empty($data) && in_array($data::class, config('packages.seo-helper.general.supported', []))) {
+        if (
+            $priority == 'advanced'
+            && ! empty($data)
+            && $data instanceof BaseModel
+            && in_array($data::class, config('packages.seo-helper.general.supported', []))) {
             if ($data instanceof Page && BaseHelper::isHomepage($data->getKey())) {
                 return;
             }
@@ -35,7 +43,7 @@ class HookServiceProvider extends ServiceProvider
                 'seo_wrap',
                 trans('packages/seo-helper::seo-helper.meta_box_header'),
                 [$this, 'seoMetaBox'],
-                get_class($data),
+                $data::class,
                 'advanced',
                 'low'
             );
@@ -47,6 +55,8 @@ class HookServiceProvider extends ServiceProvider
         $meta = [
             'seo_title' => null,
             'seo_description' => null,
+            'seo_image' => null,
+            'index' => 'index',
         ];
 
         $args = func_get_args();
@@ -60,17 +70,20 @@ class HookServiceProvider extends ServiceProvider
 
         $object = $args[0];
 
-        return view('packages/seo-helper::meta-box', compact('meta', 'object'));
+        $form = SeoForm::createFromArray($meta)->renderForm(showStart: false, showEnd: false);
+
+        return view('packages/seo-helper::meta-box', compact('meta', 'object', 'form'));
     }
 
     public function setSeoMeta(string $screen, BaseModel|Model|null $object): bool
     {
+        SeoHelper::meta()->addMeta('robots', 'index, follow');
+
         if ($object instanceof Page && BaseHelper::isHomepage($object->getKey())) {
             return false;
         }
 
         $object->loadMissing('metadata');
-
         $meta = $object->getMetaData('seo_meta', true);
 
         if (! empty($meta)) {
@@ -80,6 +93,13 @@ class HookServiceProvider extends ServiceProvider
 
             if (! empty($meta['seo_description'])) {
                 SeoHelper::setDescription($meta['seo_description']);
+            }
+
+            if (! empty($meta['seo_image'])) {
+                SeoHelper::setImage(RvMedia::getImageUrl($meta['seo_image']));
+            }
+            if (! empty($meta['index']) && $meta['index'] === 'noindex') {
+                SeoHelper::meta()->addMeta('robots', 'noindex, nofollow');
             }
         }
 

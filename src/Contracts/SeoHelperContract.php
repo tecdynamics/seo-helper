@@ -21,4 +21,6 @@ interface SeoHelperContract extends RenderableContract
     public function getTitle(): string|null;
 
     public function setDescription(string|null $description): self;
+
+    public function setImage(string|null $image): self;
 }

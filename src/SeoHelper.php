@@ -61,6 +61,13 @@ class SeoHelper implements SeoHelperContract
         return $this;
     }
 
+    public function setImage(?string $image): SeoHelperContract
+    {
+        $this->openGraph()->setImage($image);
+
+        return $this;
+    }
+
     public function meta(): SeoMetaContract
     {
         return $this->seoMeta;
@@ -130,6 +137,10 @@ class SeoHelper implements SeoHelperContract
 
                 if (! Arr::get($seoMeta, 'seo_description')) {
                     Arr::forget($seoMeta, 'seo_description');
+                }
+
+                if (! Arr::get($seoMeta, 'seo_image')) {
+                    Arr::forget($seoMeta, 'seo_image');
                 }
 
                 if (! empty($seoMeta)) {
