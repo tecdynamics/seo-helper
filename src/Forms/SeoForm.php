@@ -44,11 +44,11 @@ class SeoForm extends FormAbstract
                     ->toArray()
             )
             ->add(
-                'seo_meta[seo_image]',
+                'seo_meta_image',
                 MediaImageField::class,
                 MediaImageFieldOption::make()
                     ->label(trans('packages/seo-helper::seo-helper.seo_image'))
-                    ->value(old('seo_meta.seo_image', $meta['seo_image']))
+                    ->value(old('seo_meta_image', $meta['seo_image']))
                     ->toArray(),
             )
             ->add(

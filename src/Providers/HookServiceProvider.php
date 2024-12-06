@@ -72,7 +72,7 @@ class HookServiceProvider extends ServiceProvider
 
         $form = SeoForm::createFromArray($meta)->renderForm(showStart: false, showEnd: false);
 
-        return view('packages/seo-helper::meta-box', compact('meta', 'object', 'form'));
+        return view('packages/seo-helper::meta-box', compact('meta', 'object', 'form'))->render();
     }
 
     public function setSeoMeta(string $screen, BaseModel|Model|null $object): bool
@@ -101,6 +101,15 @@ class HookServiceProvider extends ServiceProvider
             if (! empty($meta['index']) && $meta['index'] === 'noindex') {
                 SeoHelper::meta()->addMeta('robots', 'noindex, nofollow');
             }
+        }
+
+        $currentDescription = SeoHelper::getDescription();
+
+        if (
+            (! $currentDescription || $currentDescription === theme_option('seo_description'))
+            && ($object->description || $object->content)
+        ) {
+            SeoHelper::setDescription($object->description ?: $object->content);
         }
 
         return true;
